@@ -13,6 +13,7 @@
         <PackageTags>google search suggestion api</PackageTags>
         <PackageId>Nakshatra.Google.SearchSuggestionsAPI</PackageId>
         <PackageLicenseExpression>Apache-2.0 </PackageLicenseExpression>
+        <PackageVersion>1.1.0</PackageVersion>
     </PropertyGroup>
 
     <ItemGroup>

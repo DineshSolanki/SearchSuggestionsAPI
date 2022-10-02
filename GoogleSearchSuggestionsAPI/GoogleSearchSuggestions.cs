@@ -23,22 +23,32 @@ public class GoogleSearchSuggestions
     ///     ''' </param>
     ///     ''' <param name="useAlternate">There is a alternate URL that can be used if default don't work</param>
     ///     ''' <returns>A list of <see cref="GoogleSuggestion"/>s.</returns>
-    public static async Task<List<GoogleSuggestion>> GetSearchSuggestions(string query, string language = "en", bool useAlternate = false)
+    public static Task<List<GoogleSuggestion>> GetSearchSuggestions(string query, string language = "en", bool useAlternate = false)
     {
         if (string.IsNullOrWhiteSpace(query))
-            throw new ArgumentNullException(nameof(query), @"Argument cannot be null or empty!");
-        string result;
-        using (var client = new HttpClient())
         {
-            if (useAlternate)
-                result = await client.GetStringAsync(string.Format(BaseSearchUrlAlternate, query, language));
-            else
-                result = await client.GetStringAsync(string.Format(BaseSearchUrl, query, language));
+            throw new ArgumentNullException(nameof(query), @"Argument cannot be null or empty!");
         }
-        var doc = XDocument.Parse(result);
-        var suggestions = from suggestion in doc.Descendants("CompleteSuggestion")
-                          select new GoogleSuggestion() { Phrase = suggestion.Element("suggestion").Attribute("data").Value };
-        return suggestions.ToList();
+        using var client = new HttpClient();
+        if (useAlternate)
+        {
+            return client.GetStringAsync(string.Format(BaseSearchUrlAlternate, query, language))
+                .ContinueWith(task =>
+                {
+                    var doc = XDocument.Parse(task.Result);
+                    var suggestions = from suggestion in doc.Descendants("CompleteSuggestion")
+                        select new GoogleSuggestion()
+                            { Phrase = suggestion.Element("suggestion").Attribute("data").Value };
+                    return suggestions.ToList();
+                });
+        }
+        return client.GetStringAsync(string.Format(BaseSearchUrl, query, language)).ContinueWith(task =>
+        {
+            var doc = XDocument.Parse(task.Result);
+            var suggestions = from suggestion in doc.Descendants("CompleteSuggestion")
+                select new GoogleSuggestion() { Phrase = suggestion.Element("suggestion").Attribute("data").Value };
+            return suggestions.ToList();
+        });
     }
 }
 
