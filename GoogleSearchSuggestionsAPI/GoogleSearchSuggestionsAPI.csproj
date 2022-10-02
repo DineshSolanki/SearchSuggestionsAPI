@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <Title>Google Search Suggestions API</Title>
+        <Description>This is kind of a wrapper that can be used to get Google Autocomplete suggestion, IT IS NOT AN OFFICIAL API</Description>
+        <PackageProjectUrl>https://github.com/DineshSolanki/SearchSuggestionsAPI</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/DineshSolanki/SearchSuggestionsAPI</RepositoryUrl>
+        <Authors>Dinesh Solanki</Authors>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>google search suggestion api</PackageTags>
+        <PackageId>Nakshatra.Google.SearchSuggestionsAPI</PackageId>
+        <PackageLicenseExpression>Apache-2.0 </PackageLicenseExpression>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Include="..\README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+    </ItemGroup>
+
+</Project>
